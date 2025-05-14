@@ -29,14 +29,14 @@ def setup_llm_chain(topic="technology"):
     return prompt|llm|StrOutputParser()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Hi! Mention me with a topic like '@Binary_Joke_Bot python' to get a joke ")
+    await update.message.reply_text("Hi! Mention me with a topic like '@JOKEONLYBOT python' to get a joke ")
     
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Mention me with a topic like '@Binary_Joke_Bot python', to get some funny jokes")
+    await update.message.reply_text("Mention me with a topic like '@JOKEONLYBOT python', to get some funny jokes")
     
 async def generate_joke(update: Update, context: ContextTypes.DEFAULT_TYPE, topic: str):
     await update.message.reply_text(f"Generating a joke about {topic}")
-    joke= setup_llm_chain(topic).invoke({}).strip()
+    joke = setup_llm_chain(topic).invoke({}).strip()
     await update.message.reply_text(joke)
     
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -44,7 +44,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot_username = context.bot.username
     
     if f'@{bot_username}' in msg:
-        match = re.search(f'@{bot_username}\\s+(.*)',msg)
+        match = re.search(f'@{bot_username}\\s+(.*)', msg)
         if match and match.group(1).strip():
             await generate_joke(update, context, match.group(1).strip())
         else:
@@ -54,7 +54,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def main():
     token = os.getenv("TELEGRAM_API_KEY")
     app = Application.builder().token(token).build()
-    app.add_handler(CommandHandler("start",start))
+    app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.run_polling(allowed_updates=Update.ALL_TYPES)
