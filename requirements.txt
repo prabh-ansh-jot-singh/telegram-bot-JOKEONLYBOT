@@ -2,7 +2,9 @@ langchain
 python-dotenv
 langchain_groq
 langchain_community
-python-telegram-bot
+python-telegram-bot==20.7
+python-dotenv
+
 
 #venv\Scripts\activate to activate the virtual environment.
 #pip install -r requirements.txt to install the required packages.
